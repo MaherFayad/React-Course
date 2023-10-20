@@ -1,3 +1,85 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Apply some basic fonts and background */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0; /* Updated background color */
+}
+
+/* Center the modal on the page */
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style the modal */
+.modal {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.2); /* Added a shadow */
+  max-width: 500px;
+  width: 50%;
+  padding: 20px;
+  margin: 20px;
+}
+
+/* Style headings */
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style labels */
+label {
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
+  color: #666;
+}
+
+/* Style the "Choose Date" input */
+#res-date {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Style other input fields and select */
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Style submit button */
+button[type="submit"] {
+  background-color: #4285f4;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+}
+
+/* Add some hover effect to the submit button */
+button[type="submit"]:hover {
+  background-color: #3579e7;
+}
