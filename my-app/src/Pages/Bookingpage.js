@@ -1,3 +1,4 @@
+import React from 'react';
 import Bookingtable from './Components/Bookingtable';
 
 function BookingForm() {

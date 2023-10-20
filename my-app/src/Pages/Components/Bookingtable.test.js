@@ -1,26 +1,68 @@
-// bookingtable.js (or the name of your file)
-import { initializeTimes, updateTimes } from './Bookingtable'; // Import the functions to be tested
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import Bookingtable from './Bookingtable';
 
-describe('initializeTimes', () => {
-  it('should return the initial state for availableTimes', () => {
-    const initialState = initializeTimes();
-    // Replace this with your actual initial state value
-    const expectedState = [];
+// Mock the fetchAPI and submitAPI functions
+jest.mock('./API', () => ({
+  fetchAPI: async (date) => {
+    // Mock the behavior of fetchAPI
+    if (date === 'valid-date') {
+      return ['time1', 'time2'];
+    } else {
+      throw new Error('Invalid date');
+    }
+  },
+  submitAPI: async (formData) => {
+    // Mock the behavior of submitAPI
+    if (formData.date === 'valid-date' && formData.numberOfGuests >= 1 && formData.numberOfGuests <= 10) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+}));
 
-    expect(initialState).toEqual(expectedState);
+describe('Bookingtable', () => {
+  it('renders Bookingtable component', () => {
+    render(<Bookingtable availableTimes={[]} dispatch={() => {}} bookingDataState={[]} />);
+    expect(screen.getByLabelText('Choose date')).toBeInTheDocument();
+    expect(screen.getByLabelText('Choose time')).toBeInTheDocument();
+    expect(screen.getByLabelText('Number of guests')).toBeInTheDocument();
+    expect(screen.getByLabelText('Occasion')).toBeInTheDocument();
+    expect(screen.getByText('Make Your reservation')).toBeInTheDocument();
   });
-});
 
-describe('updateTimes', () => {
-  it('should return the same state value provided in the action', () => {
-    const initialState = [{ time: '17:00' }];
-    const action = { type: 'UPDATE_TIMES', payload: 'newDate' };
+  it('submits the form with valid data', async () => {
+    render(<Bookingtable availableTimes={[]} dispatch={() => {}} bookingDataState={[]} />);
+    const dateInput = screen.getByLabelText('Choose date');
+    const timeInput = screen.getByLabelText('Choose time');
+    const guestsInput = screen.getByLabelText('Number of guests');
+    const submitButton = screen.getByText('Make Your reservation');
 
-    // The initial state should not be modified by the reducer
-    const updatedState = updateTimes(initialState, action);
+    fireEvent.change(dateInput, { target: { value: 'valid-date' } });
+    fireEvent.change(timeInput, { target: { value: '17:00' } });
+    fireEvent.change(guestsInput, { target: { value: '2' } });
 
-    expect(updatedState).toEqual(initialState);
+    fireEvent.click(submitButton);
+
+    // Add your assertions for the success path here
+    // Verify that the form submission was successful
   });
 
-  // Add more tests when you implement the logic for changing times based on the date
+  it('displays an error with invalid data', async () => {
+    render(<Bookingtable availableTimes={[]} dispatch={() => {}} bookingDataState={[]} />);
+    const dateInput = screen.getByLabelText('Choose date');
+    const timeInput = screen.getByLabelText('Choose time');
+    const guestsInput = screen.getByLabelText('Number of guests');
+    const submitButton = screen.getByText('Make Your reservation');
+
+    fireEvent.change(dateInput, { target: { value: 'invalid-date' } });
+    fireEvent.change(timeInput, { target: { value: '17:00' } });
+    fireEvent.change(guestsInput, { target: { value: '11' } });
+
+    fireEvent.click(submitButton);
+
+    // Add your assertions for the error path here
+    // Verify that the form submission failed and an error message is displayed
+  });
 });

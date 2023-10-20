@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Bookingpage from './Pages/Bookingpage';
-import ConfirmedBooking from './Pages/ConfirmedBooking '; // Your ConfirmedBooking component
+import ConfirmedBooking from './Pages/ConfirmedBooking ';
+import './App.css';
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Bookingpage />}>
+        <Route path="/">
           <Route index element={<Bookingpage />} />
           <Route path="Confirmed" element={<ConfirmedBooking />} />
         </Route>
